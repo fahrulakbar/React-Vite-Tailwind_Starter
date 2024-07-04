@@ -1,6 +1,23 @@
 import React from 'react';
-import Routes from '@/routes/Routes';
+import { Route, Routes, Navigate, BrowserRouter } from 'react-router-dom';
+import AdminDashboard from './pages/admin-dashboard/adminDashboard';
+import LoginPage from './pages/Login';
+import RequireAuth from './context/requireAuth';
 
-export default function App() {
-  return <Routes />;
+function App() {
+    return (
+        <BrowserRouter basename="/">
+            <div className="h-[100vh] w-full">
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route element={<RequireAuth allowedRoles={['admin']} />}>
+                        <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
+                    </Route>
+                    {/* <Route path="*" element={<Navigate to="/404" replace />} /> */}
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
 }
+
+export default App;
