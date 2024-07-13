@@ -1,9 +1,30 @@
+// LembagaCrud.js
 import React, { useState, useEffect } from 'react';
 import EditModal from './EditModal';
-import useAppContext from '../../context/useAppContext';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import { ClipLoader } from 'react-spinners';
-import axios from 'axios'; // Add axios import
+import Modal from 'react-modal';
+import useAppContext from '../../context/useAppContext';
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    zIndex: 1000,
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: '500px',
+    width: '90%',
+    padding: '20px',
+  },
+};
+
+Modal.setAppElement('#root');
 
 const LembagaCrud = () => {
   const [lembagaData, setLembagaData] = useState([]);
@@ -20,7 +41,7 @@ const LembagaCrud = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get('/lembaga');
+      const response = await axiosInstance.get('lembaga');
       setLembagaData(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -37,7 +58,7 @@ const LembagaCrud = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await axiosInstance.delete(`/lembaga/${id}`);
+      await axiosInstance.delete(`lembaga/${id}`);
       fetchData(); // Refresh data after deletion
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -51,10 +72,10 @@ const LembagaCrud = () => {
     try {
       if (updatedLembaga.id) {
         // Update existing lembaga
-        await axiosInstance.put(`/lembaga/${updatedLembaga.id}`, updatedLembaga);
+        await axiosInstance.put(`lembaga/${updatedLembaga.id}`, updatedLembaga);
       } else {
         // Create new lembaga
-        await axiosInstance.post('/lembaga', updatedLembaga);
+        await axiosInstance.post('lembaga', updatedLembaga);
       }
       setIsOpen(false);
       fetchData(); // Refresh data after saving
@@ -99,20 +120,20 @@ const LembagaCrud = () => {
           <table className="min-w-full bg-white border">
             <thead>
               <tr>
-                <th className="border px-4 py-2">ID</th>
+                <th className="border px-4 py-2">Logo</th>
                 <th className="border px-4 py-2">Nama</th>
                 <th className="border px-4 py-2">Singkatan</th>
-                <th className="border px-4 py-2">Deskripsi</th>
                 <th className="border px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredData.map(lembaga => (
                 <tr key={lembaga.id}>
-                  <td className="border px-4 py-2">{lembaga.uuid}</td>
+                  <td className="border px-4 py-2">
+                    <img src={lembaga.logo} alt={lembaga.nama} className="w-16 h-16 object-cover" />
+                  </td>
                   <td className="border px-4 py-2">{lembaga.nama}</td>
                   <td className="border px-4 py-2">{lembaga.singkatan}</td>
-                  <td className="border px-4 py-2">{lembaga.logo}</td>
                   <td className="border px-4 py-2">
                     <button
                       className="bg-green-500 text-white px-4 py-2 rounded mr-2 flex items-center"
@@ -134,12 +155,13 @@ const LembagaCrud = () => {
         )}
       </div>
       {isOpen && (
-        <EditModal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          lembaga={currentLembaga}
-          onSave={handleSave}
-        />
+        <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles} contentLabel="Edit Lembaga Modal">
+          <EditModal
+            lembaga={currentLembaga}
+            onClose={() => setIsOpen(false)}
+            onSave={handleSave}
+          />
+        </Modal>
       )}
     </div>
   );

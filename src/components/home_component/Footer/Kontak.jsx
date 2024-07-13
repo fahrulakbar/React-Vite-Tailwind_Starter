@@ -1,0 +1,53 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import Menu from "./Menu";
+import React from "react";
+const Kontak = () => {
+  const [sosmed, setSosmed] = useState(null);
+
+  const getSosmed = async () => {
+    try {
+      const response = await axios.get("http://nurul-huda.org/api/profil");
+      console.log(response);
+      setSosmed(response.data.data.sosial_media);
+    } catch (error) {
+      if (!error.response) {
+        console.error("Network error:", error);
+      } else {
+        console.error("Error response:", error.response.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getSosmed();
+  }, []);
+
+  useEffect(() => {
+    console.log(sosmed);
+  }, [sosmed]);
+
+  return (
+    <Menu>
+      <Menu.Title text="Kontak" />
+      {sosmed && (
+        <Menu.List>
+          {sosmed.fb && (
+            <Menu.Data href={sosmed.fb} text={sosmed.fb}>
+              <FaFacebook />
+            </Menu.Data>
+          )}
+          {sosmed.ig && (
+            <Menu.Data href={sosmed.ig} text={sosmed.ig}>
+              <FaInstagram />
+            </Menu.Data>
+          )}
+        </Menu.List>
+      )}
+    </Menu>
+  );
+};
+
+export default Kontak;

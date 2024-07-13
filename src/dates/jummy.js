@@ -17,23 +17,48 @@ export let Data = [
         inside: [
             {
                 icon: 'fa-solid fa-universal-access',
-                text: 'Penduduk',
-                url: 'post'
+                text: 'Berita',
+                url: 'berita'
             },
             {
                 icon: 'fa-solid fa-chart-simple',
-                text: 'Kondisi Pasar',
-                url: 'marketing'
+                text: 'Produk',
+                url: 'produk'
             },
             {
                 icon: 'fa-regular fa-floppy-disk',
-                text: 'Saved Reports',
+                text: 'Lembaga',
                 url: 'lmbg'
             },
             {
                 icon: 'fa-regular fa-comment-dots',
-                text: 'Feedbacks',
+                text: 'Home',
                 url: 'main'
+            },
+            {
+                icon: 'fa-regular fa-comment-dots',
+                text: 'Belanja Desa',
+                url: 'belanja'
+            },
+            {
+                icon: 'fa-solid fa-universal-access',
+                text: 'Kegiatan ',
+                url: 'kegiatan'
+            },
+            {
+                icon: 'fa-regular fa-comment-dots',
+                text: 'Pembangunan',
+                url: 'pembangunan'
+            },
+            {
+                icon: 'fa-regular fa-comment-dots',
+                text: 'Penduduk',
+                url: 'penduduk'
+            },
+            {
+                icon: 'fa-regular fa-comment-dots',
+                text: 'Pelayanan',
+                url: 'pelayanan'
             },
         ]
     },

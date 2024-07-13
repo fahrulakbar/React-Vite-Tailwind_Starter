@@ -57,6 +57,18 @@
     @apply text-sm font-primary md:text-base;
   }
 
+  .sidebar {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  
+  .sidebar-open {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+
   .layout {
     /* 750px */
     /* max-width: 43.75rem; */
