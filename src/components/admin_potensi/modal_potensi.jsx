@@ -25,7 +25,7 @@ const ModalPotensi = ({ post, closeModal }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axiosInstance.put(`/potensi/${postData.slug}`, postData);
+      await axiosInstance.put(`/${postData.slug}`, postData);
       setLoading(false);
       closeModal();
     } catch (error) {
